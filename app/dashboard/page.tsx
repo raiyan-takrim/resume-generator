@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth/next";
 import SignOutButton from "@/components/SignOutButton";
+import ResumeForm from "@/components/ResumeForm";
 
 export default async function Dashboard() {
     const session = await getServerSession(authOptions);
@@ -31,6 +32,7 @@ export default async function Dashboard() {
                     <SignOutButton />
                 </div>
             </div>
+            <ResumeForm />
         </div>
     );
 }
