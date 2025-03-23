@@ -1,38 +1,32 @@
+
+import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth/next";
-import SignOutButton from "@/components/SignOutButton";
-import ResumeForm from "@/components/ResumeForm";
+import Link from "next/link";
+import {FaEdit} from "react-icons/fa"
 
 export default async function Dashboard() {
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-        return (
-            <div className="flex items-center justify-center min-h-screen">
-                <p className="text-xl text-red-500">Unauthorized</p>
-            </div>
-        );
-    }
+    const session = await auth()
 
     return (
-        <div className="min-h-screen bg-gray-100 p-6">
-            <div className="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
-                <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
-                <div className="flex items-center gap-6">
-                    <img
-                        src={session.user?.image || ""}
-                        alt="User Profile"
-                        className="w-20 h-20 rounded-full border-2 border-gray-300"
-                    />
-                    <div>
-                        <p className="text-xl font-semibold">{session.user?.name}</p>
-                        <p className="text-gray-600">{session.user?.email}</p>
+        <div className="h-full w-full p-6">
+            <div className="flex flex-col h-full border rounded-md">
+                <div className="p-4 border-b">
+                    <h1 className="text-xl font-bold mb-6">Dashboard</h1>
+                    <h2>
+                        Welcome back, <b>{session?.user?.name}!</b>
+                    </h2>
+                </div>
+                <div className="flex-1 grid place-items-center">
+                    <div className="my-auto">
+                        <h3 className="text-sm">No resume found!</h3>
+                        <Button className="mt-4" asChild>
+                            <Link href="/dashboard/create" className="flex items-center gap-2">
+                                <FaEdit className="text-lg" /> Create Resume
+                            </Link>
+                        </Button>
                     </div>
-                    <SignOutButton />
                 </div>
             </div>
-            <ResumeForm />
         </div>
     );
 }
